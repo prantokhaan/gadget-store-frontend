@@ -1,9 +1,11 @@
 import React from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 
 export default function Navbar() {
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
+  const { cartCount } = useCart();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -63,6 +65,11 @@ export default function Navbar() {
               >
                 <i className="bi bi-cart3 me-1"></i>
                 Cart
+                {cartCount > 0 && (
+                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {cartCount}
+                  </span>
+                )}
               </Link>
             </li>
 

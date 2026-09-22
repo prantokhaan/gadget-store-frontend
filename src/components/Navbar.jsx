@@ -1,8 +1,16 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
+  const { user, isAuthenticated, isAdmin, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top py-2">
       <div className="container">
@@ -48,7 +56,6 @@ export default function Navbar() {
           </ul>
 
           <ul className="navbar-nav ms-auto align-items-lg-center gap-2">
-            
             <li className="nav-item">
               <Link
                 className="btn btn-outline-light btn-sm position-relative me-2"
@@ -56,34 +63,42 @@ export default function Navbar() {
               >
                 <i className="bi bi-cart3 me-1"></i>
                 Cart
-                
-                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    20
-                  </span>
-                
               </Link>
             </li>
 
-            
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/orders">
-                <i className="bi bi-box-seam me-1"></i>
-                My Orders
-              </NavLink>
-            </li>
+            {isAuthenticated ? (
+              <>
+                {isAdmin && (
+                  <li className="nav-item">
+                    <Link className="btn btn-warning btn-sm fw-semibold" to="/admin">
+                      <i className="bi bi-speedometer2 me-1"></i>
+                      Admin Panel
+                    </Link>
+                  </li>
+                )}
 
-            <li className="nav-item d-flex align-items-center">
-              <span className="navbar-text text-light small me-2">
-                <i className="bi bi-person-circle me-1"></i>
-                pranto
-              </span>
-              <button
-                className="btn btn-outline-danger btn-sm"
-              >
-                Logout
-              </button>
-            </li>
-            <>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/orders">
+                    <i className="bi bi-box-seam me-1"></i>
+                    My Orders
+                  </NavLink>
+                </li>
+
+                <li className="nav-item d-flex align-items-center">
+                  <span className="navbar-text text-light small me-2">
+                    <i className="bi bi-person-circle me-1"></i>
+                    {user?.name}
+                  </span>
+                  <button
+                    className="btn btn-outline-danger btn-sm"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
                 <li className="nav-item">
                   <Link className="nav-link" to="/login">
                     Login
@@ -95,6 +110,7 @@ export default function Navbar() {
                   </Link>
                 </li>
               </>
+            )}
           </ul>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 
@@ -16,19 +16,11 @@ export default function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top py-2">
       <div className="container">
-        <Link
-          className="navbar-brand fw-bold d-flex align-items-center gap-2"
-          to="/"
-        >
-          <div
-            className="bg-warning text-dark rounded-circle p-1 d-flex align-items-center justify-content-center"
-            style={{ width: "32px", height: "32px" }}
-          >
+        <Link className="navbar-brand fw-bold d-flex align-items-center gap-2" to="/">
+          <div className="bg-warning text-dark rounded-circle p-1 d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}>
             <i className="bi bi-cpu-fill fs-5"></i>
           </div>
-          <span className="text-white">
-            Gadget<span className="text-warning">Store</span>
-          </span>
+          <span className="text-white">Gadget<span className="text-warning">Store</span></span>
         </Link>
 
         <button
@@ -58,11 +50,9 @@ export default function Navbar() {
           </ul>
 
           <ul className="navbar-nav ms-auto align-items-lg-center gap-2">
+            {/* Cart link */}
             <li className="nav-item">
-              <Link
-                className="btn btn-outline-light btn-sm position-relative me-2"
-                to="/cart"
-              >
+              <Link className="btn btn-outline-light btn-sm position-relative me-2" to="/cart">
                 <i className="bi bi-cart3 me-1"></i>
                 Cart
                 {cartCount > 0 && (
@@ -75,6 +65,7 @@ export default function Navbar() {
 
             {isAuthenticated ? (
               <>
+                {/* Admin button if admin */}
                 {isAdmin && (
                   <li className="nav-item">
                     <Link className="btn btn-warning btn-sm fw-semibold" to="/admin">
@@ -96,10 +87,7 @@ export default function Navbar() {
                     <i className="bi bi-person-circle me-1"></i>
                     {user?.name}
                   </span>
-                  <button
-                    className="btn btn-outline-danger btn-sm"
-                    onClick={handleLogout}
-                  >
+                  <button className="btn btn-outline-danger btn-sm" onClick={handleLogout}>
                     Logout
                   </button>
                 </li>
@@ -124,3 +112,4 @@ export default function Navbar() {
     </nav>
   );
 }
+

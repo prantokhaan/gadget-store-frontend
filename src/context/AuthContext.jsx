@@ -8,6 +8,7 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
   const [loading, setLoading] = useState(true);
 
+  // Initialize auth state by fetching current user if token exists
   useEffect(() => {
     async function loadUser() {
       if (token) {
